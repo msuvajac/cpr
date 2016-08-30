@@ -15,6 +15,7 @@
 #include "payload.h"
 #include "proxies.h"
 #include "response.h"
+#include "ssl.h"
 #include "timeout.h"
 
 namespace cpr {
@@ -42,6 +43,7 @@ class Session {
     void SetCookies(const Cookies& cookies);
     void SetBody(Body&& body);
     void SetBody(const Body& body);
+    void SetVerifySsl(const bool& verify);
 
     // Used in templated functions
     void SetOption(const Url& url);
@@ -62,6 +64,7 @@ class Session {
     void SetOption(const Cookies& cookies);
     void SetOption(Body&& body);
     void SetOption(const Body& body);
+    void SetOption(const VerifySsl& verify_ssl);
 
     Response Delete();
     Response Get();
