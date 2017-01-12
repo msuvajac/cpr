@@ -279,8 +279,8 @@ void Session::Impl::SetBody(const Body& body) {
 void Session::Impl::SetVerifySsl(const bool& verify) {
     auto curl = curl_->handle;
     if (curl) {
-        curl_easy_setopt(curl, CURLOPT_SSL_VERIFYPEER, long(verify));
-        curl_easy_setopt(curl, CURLOPT_SSL_VERIFYHOST, long(verify));
+        curl_easy_setopt(curl, CURLOPT_SSL_VERIFYPEER, verify ? 1L : 0L);
+        curl_easy_setopt(curl, CURLOPT_SSL_VERIFYHOST, verify ? 2L : 0L);
     }
 }
 
