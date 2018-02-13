@@ -2,6 +2,7 @@
 
 #include <algorithm>
 #include <functional>
+#include <mutex>
 #include <string>
 
 #include <curl/curl.h>
@@ -10,6 +11,12 @@
 #include "cpr/util.h"
 
 namespace cpr {
+
+std::once_flag curl_init_flag_g;
+
+void GlobalCurlInit() {
+    curl_global_init(CURL_GLOBAL_ALL);
+}
 
 class Session::Impl {
   public:
@@ -60,6 +67,8 @@ class Session::Impl {
 };
 
 Session::Impl::Impl() {
+    std::call_once(curl_init_flag_g, GlobalCurlInit);
+
     curl_ = std::unique_ptr<CurlHolder, std::function<void(CurlHolder*) >>(newHolder(),
                                                                            &Impl::freeHolder);
     auto curl = curl_->handle;
